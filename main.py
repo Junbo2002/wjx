@@ -27,9 +27,10 @@ driver_path = 'C:\Program Files\Google\Chrome\Application\chromedriver'
 head = '(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))'
 proxy_list = proxy_util.update_proxy()
 
-# 每个问题选项的数量（-1表示该题为简答题）
+# 每个问题选项的数量（-1表示该题为简答题）（若为矩阵题则每道题分多个不同角度，此处填写一个角度下的选项数量即可）
 option_nums = [2, 4, 6, 2, -1, 3, 2, 3, 3, -1, 2, 2, 2, 2, 3, -1, 3, -1]  # 18
 # 0表示单选，1表示多选
+# 新增：2表示度量题，3表示矩阵单选题
 multiple_choice = [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
@@ -83,19 +84,45 @@ def solve(cnt: int):
             q_option = fun.random_option(num)
             q_select = driver.find_element(By.XPATH, f'//*[@id="div{i+1}"]/div[2]/div[{q_option}]')
             q_select.click()
-        else:
+        
+        elif multiple_choice[i] == 1:
             # 多选题
             q_selects = fun.random_multi_select(num)
             for j in q_selects:
                 q_select = driver.find_element(By.XPATH, f'//*[@id="div{i+1}"]/div[2]/div[{j}]')
                 q_select.click()
+        
+        elif multiple_choice[i] == 2:
+            # 度量题（新增）
+            q_option = fun.random_multi_select(num)
+            q_select = driver.find_element(By.XPATH, f'//*[@id="div{i+1}"]/div[2]/div[1]/ul[1]/li[{q_option}]')
+            q_select.click()
+
+        elif multiple_choice[i] == 3:
+            # 矩阵单项题（新增，此处以正反两个角度为例）。
+            # 矩阵第一个角度
+            q_option1 = fun.random_option(num)+1
+            q_select1 = driver.find_element(By.XPATH, f'//*[@id="div{i+1}"]/div[2]/table[1]/tbody[1]/tr[3]/td[{q_option1}]')
+            q_select1.click()
+            # 矩阵第二个角度
+            q_option2 = fun.random_option(num)+1
+            q_select2 = driver.find_element(By.XPATH, f'//*[@id="div{i+1}"]/div[2]/table[1]/tbody[1]/tr[5]/td[{q_option2}]')
+            q_select2.click()
 
     submit_button = driver.find_element(By.XPATH, '//*[@id="ctlNext"]')
     submit_button.click()
     time.sleep(0.2)
-    confirm = driver.find_element(By.XPATH, '//*[@id="alert_box"]/div[2]/div[2]/button')
+    # 点按验证（旧，现在已不可用）
+    # confirm = driver.find_element(By.XPATH, '//*[@id="alert_box"]/div[2]/div[2]/button')
+    # confirm.click()
+    # validation = driver.find_element(By.XPATH, '//*[@id="rectMask"]')
+    # validation.click()
+    # time.sleep(2.5)
+
+    # 点按验证（新）
+    confirm = driver.find_element(By.XPATH, '//*[@id="layui-layer1"]/div[3]/a')
     confirm.click()
-    validation = driver.find_element(By.XPATH, '//*[@id="rectMask"]')
+    validation = driver.find_element(By.XPATH, '//*[@id="SM_BTN_WRAPPER_1"]')
     validation.click()
     time.sleep(2.5)
 
