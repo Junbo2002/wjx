@@ -87,15 +87,16 @@ head = '(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))'
 
 
 if os.path.isfile("config.json"):
-    with open("config.json","r",encoding="utf-8") as f:
-        option_nums = json.load(f)["option_nums"]
-        multiple_choice = json.load(f)["multiple_choice"]
+    with open("config.json",encoding='utf8') as f:
+        x = json.load(f)
+        option_nums = x["option_nums"]
+        multiple_choice = x["multiple_choice"]
 else:
-    with open("config.json","w+",encoding="utf-8") as f:
+    with open("config.json","w+",encoding='utf8') as f:
         f.write("""
 {
-    "option_nums":[2, 5, 4, 4, 4, 5, 2], //每个问题选项的数量（-1表示该题为简答题）
-    "multiple_choice":[0,0,0,0,0,1,0] //0表单选 1表多选 简答题随意
+    "option_nums":[2, 5, 4, 4, 4, 5, 2],  //每个问题选项的数量（-1表示该题为简答题）
+    "multiple_choice":[0,0,0,0,0,1,0]  //0表单选 1表多选 简答题随意
 }"""
         )
     print(
@@ -112,20 +113,6 @@ else:
     )
     exit()
 
-# # question_num = int(input("请输入题目数量"))
-# # 每个问题选项的数量（-1表示该题为简答题）
-# # option_nums =     [2, 4, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 3, 3, 3, 5, -1]  # 17
-option_nums = [2, 5, 4, 4, 4, 5, 2]  # 7
-# # for i in range(question_num):
-# #     x = int(input(f"请输入每个问题选项的数量 -1表示简答题\n第{i+1}题:"))
-# #     option_nums.append(x)
-# # print(option_nums)
-# # 0表示单选，1表示多选
-multiple_choice = [0,0,0,0,0,1,0]
-# # for i in range(question_num):
-# #     x = int(input(f"请输入题目类型0表单选 1表多选 简答题随意 \n第{i+1}题:"))
-# #     multiple_choice.append(x)
-# # print(multiple_choice)
 
 def solve(cnt: int):
 
@@ -210,7 +197,7 @@ def solve(cnt: int):
     print('[' + eval(head) + f']: ',res.text, cnt)
     driver.close()
 
-# solve(1)
+solve(1)
 
 # if __name__ == '__main__':
 #     pool = ThreadPoolExecutor(max_workers=4)
