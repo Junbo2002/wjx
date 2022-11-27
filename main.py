@@ -1,7 +1,7 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 import selenium
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -137,7 +137,7 @@ def solve(cnt: int):
             width = slider.size.get('width')
             ActionChains(driver).drag_and_drop_by_offset(slider, width, 0).perform()
 
-    except selenium.common.exceptions.NoSuchElementException:
+    except NoSuchElementException:
         pass
 
     time.sleep(1)
