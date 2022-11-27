@@ -94,6 +94,7 @@ if os.path.isfile("config.json"):
         multiple_choice = x["multiple_choice"]
         max_workers = x["max_workers"]
         run_num = x["run_num"]
+        url = x["url"]
 else:
     with open("config.json","w+",encoding='utf8') as f:
         f.write("""
@@ -105,7 +106,9 @@ else:
     "max_workers" : 4, 
     "注释3": "//线程数量",
     "run_num" : 200 , 
-    "注释4": "//填写问卷次数"
+    "注释4": "//填写问卷次数",
+    "url" : "https://www.wjx.cn/vm/exnm04A.aspx",
+    "注释5" : "调查问卷链接"
 }"""
         )
     print(
@@ -157,7 +160,7 @@ def solve(cnt: int):
         """
     })
     # 打开问卷星网址
-    driver.get('https://www.wjx.cn/vm/exnm04A.aspx')
+    driver.get(url)
 
     # driver.maximize_window()
     # 每个问题的选项
