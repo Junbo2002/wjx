@@ -1,5 +1,5 @@
 from selenium import webdriver
-import random,os,time
+import random,os,time,json
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
@@ -88,7 +88,8 @@ head = '(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))'
 
 if os.path.isfile("config.json"):
     with open("config.json","r",encoding="utf-8") as f:
-        pass
+        option_nums = json.load(f)["option_nums"]
+        multiple_choice = json.load(f)["multiple_choice"]
 else:
     with open("config.json","w+",encoding="utf-8") as f:
         f.write("""
