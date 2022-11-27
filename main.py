@@ -8,9 +8,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
 
-
-
-
 def random_proxy(proxy_list: list):
     length = len(proxy_list)
     index = random.randint(0, length-1)
